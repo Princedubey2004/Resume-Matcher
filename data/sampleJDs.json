@@ -1,0 +1,18 @@
+[
+  {
+    "id": "JD001",
+    "description": "Role: Backend Developer\n\nWe are looking for an experienced Backend Developer to join our team.\n\nResponsibilities:\n- Design and build scalable REST APIs using Java and Spring Boot\n- Work with MySQL and Redis for data persistence\n- Deploy services using Docker and Kubernetes on AWS\n- Collaborate with frontend teams using React\n\nRequired Skills:\nJava, Spring Boot, MySQL, Docker, Kubernetes, AWS, REST\n\nGood to Have:\nKafka, Redis, Python\n\nExperience: 4+ years\nSalary: 18 LPA"
+  },
+  {
+    "id": "JD002",
+    "description": "Role: Full Stack Developer\n\nWe need a talented Full Stack Developer to build end-to-end web applications.\n\nRequired Skills:\nReact, Node.js, JavaScript, MySQL, Git, REST\n\nGood to Have:\nTypeScript, MongoDB, Docker\n\nExperience: 3+ years\nSalary: $80,000 - $100,000 per annum"
+  },
+  {
+    "id": "JD003",
+    "description": "Role: DevOps Engineer\n\nResponsible for managing CI/CD pipelines, infrastructure automation, and container orchestration.\n\nRequired Skills:\nDocker, Kubernetes, AWS, Jenkins, Git, Linux, Bash, CI/CD\n\nOptional:\nTerraform, Ansible, Python\n\nExperience: 5+ years\nSalary: ₹25,00,000 per annum"
+  },
+  {
+    "id": "JD004",
+    "description": "Role: Junior Python Developer\n\nLooking for fresh graduates or entry level developers with a passion for Python.\n\nRequired Skills:\nPython, REST, Git\n\nPreferred:\nFlask, Django, MySQL\n\nExperience: Fresher / Entry level\nSalary: 6 LPA"
+  }
+]

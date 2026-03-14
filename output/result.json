@@ -1,0 +1,226 @@
+{
+  "name": "PRINCE DUBEY",
+  "salary": "$80,000 - $100,000 per annum",
+  "yearOfExperience": null,
+  "resumeSkills": [
+    "Java",
+    "Python",
+    "JavaScript",
+    "TypeScript",
+    "C",
+    "Go",
+    "React",
+    "HTML",
+    "CSS",
+    "Next.js",
+    "Tailwind",
+    "Node.js",
+    "Express",
+    "Spring Boot",
+    "Django",
+    "Flask",
+    "MySQL",
+    "PostgreSQL",
+    "MongoDB",
+    "Redis",
+    "Docker",
+    "AWS",
+    "Git",
+    "GitHub",
+    "CI/CD",
+    "Selenium",
+    "GraphQL",
+    "REST",
+    "Microservices"
+  ],
+  "matchingJobs": [
+    {
+      "jobId": "JD002",
+      "role": "Full Stack Developer",
+      "salary": "$80,000 - $100,000 per annum",
+      "requiredExperience": 3,
+      "aboutRole": "Role: Full Stack Developer We need a talented Full Stack Developer to build end-to-end web applications.",
+      "skillsAnalysis": [
+        {
+          "skill": "JavaScript",
+          "presentInResume": true
+        },
+        {
+          "skill": "React",
+          "presentInResume": true
+        },
+        {
+          "skill": "Node.js",
+          "presentInResume": true
+        },
+        {
+          "skill": "MySQL",
+          "presentInResume": true
+        },
+        {
+          "skill": "Git",
+          "presentInResume": true
+        },
+        {
+          "skill": "REST",
+          "presentInResume": true
+        },
+        {
+          "skill": "TypeScript",
+          "presentInResume": true
+        },
+        {
+          "skill": "MongoDB",
+          "presentInResume": true
+        },
+        {
+          "skill": "Docker",
+          "presentInResume": true
+        }
+      ],
+      "matchingScore": 100
+    },
+    {
+      "jobId": "JD004",
+      "role": "Junior Python Developer",
+      "salary": "6 LPA",
+      "requiredExperience": 0,
+      "aboutRole": "Role: Junior Python Developer Looking for fresh graduates or entry level developers with a passion for Python.",
+      "skillsAnalysis": [
+        {
+          "skill": "Python",
+          "presentInResume": true
+        },
+        {
+          "skill": "Git",
+          "presentInResume": true
+        },
+        {
+          "skill": "REST",
+          "presentInResume": true
+        },
+        {
+          "skill": "Django",
+          "presentInResume": true
+        },
+        {
+          "skill": "Flask",
+          "presentInResume": true
+        },
+        {
+          "skill": "MySQL",
+          "presentInResume": true
+        }
+      ],
+      "matchingScore": 100
+    },
+    {
+      "jobId": "JD001",
+      "role": "Backend Developer",
+      "salary": "18 LPA",
+      "requiredExperience": 4,
+      "aboutRole": "Role: Backend Developer We are looking for an experienced Backend Developer to join our team.",
+      "skillsAnalysis": [
+        {
+          "skill": "Java",
+          "presentInResume": true
+        },
+        {
+          "skill": "React",
+          "presentInResume": true
+        },
+        {
+          "skill": "Spring Boot",
+          "presentInResume": true
+        },
+        {
+          "skill": "MySQL",
+          "presentInResume": true
+        },
+        {
+          "skill": "Redis",
+          "presentInResume": true
+        },
+        {
+          "skill": "Docker",
+          "presentInResume": true
+        },
+        {
+          "skill": "Kubernetes",
+          "presentInResume": false
+        },
+        {
+          "skill": "AWS",
+          "presentInResume": true
+        },
+        {
+          "skill": "REST",
+          "presentInResume": true
+        },
+        {
+          "skill": "Python",
+          "presentInResume": true
+        },
+        {
+          "skill": "Kafka",
+          "presentInResume": false
+        }
+      ],
+      "matchingScore": 82
+    },
+    {
+      "jobId": "JD003",
+      "role": "DevOps Engineer",
+      "salary": "₹25,00,000 per annum",
+      "requiredExperience": 5,
+      "aboutRole": "Role: DevOps Engineer Responsible for managing CI/CD pipelines, infrastructure automation, and container orchestration.",
+      "skillsAnalysis": [
+        {
+          "skill": "Docker",
+          "presentInResume": true
+        },
+        {
+          "skill": "Kubernetes",
+          "presentInResume": false
+        },
+        {
+          "skill": "AWS",
+          "presentInResume": true
+        },
+        {
+          "skill": "Jenkins",
+          "presentInResume": false
+        },
+        {
+          "skill": "Git",
+          "presentInResume": true
+        },
+        {
+          "skill": "CI/CD",
+          "presentInResume": true
+        },
+        {
+          "skill": "Linux",
+          "presentInResume": false
+        },
+        {
+          "skill": "Bash",
+          "presentInResume": false
+        },
+        {
+          "skill": "Python",
+          "presentInResume": true
+        },
+        {
+          "skill": "Terraform",
+          "presentInResume": false
+        },
+        {
+          "skill": "Ansible",
+          "presentInResume": false
+        }
+      ],
+      "matchingScore": 45
+    }
+  ]
+}

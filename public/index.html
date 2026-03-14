@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resume Matcher</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0d0f1a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 48px 16px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .page-header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .page-header p {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    .upload-card {
+      background: #161827;
+      border: 1px solid #252840;
+      border-radius: 16px;
+      padding: 36px;
+      max-width: 540px;
+      margin: 0 auto 40px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 10px;
+    }
+
+    .file-drop {
+      background: #0d0f1a;
+      border: 2px dashed #2d3055;
+      border-radius: 10px;
+      padding: 28px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .file-drop:hover, .file-drop.drag-over {
+      border-color: #7c3aed;
+      background: #13152a;
+    }
+
+    .file-drop input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .file-drop .file-icon { font-size: 2rem; margin-bottom: 8px; }
+    .file-drop .file-hint { color: #64748b; font-size: 0.88rem; }
+    .file-drop .file-name { color: #a78bfa; font-size: 0.92rem; font-weight: 500; margin-top: 6px; }
+
+    .btn-match {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-match:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    .btn-match:active:not(:disabled) { transform: translateY(0); }
+    .btn-match:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .status-bar {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 0.88rem;
+      min-height: 20px;
+      color: #64748b;
+    }
+
+    .status-bar.error { color: #f87171; }
+    .status-bar.success { color: #4ade80; }
+
+    /* ── Results ── */
+    #result { max-width: 840px; margin: 0 auto; }
+
+    .candidate-card {
+      background: #161827;
+      border: 1px solid #252840;
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+
+    .candidate-card .cname {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #a78bfa;
+      margin-bottom: 2px;
+    }
+
+    .candidate-card .cmeta {
+      color: #64748b;
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+    }
+
+    .sec-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #475569;
+      margin-bottom: 10px;
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .tag {
+      padding: 4px 13px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .tag-skill   { background: #2e1065; color: #c4b5fd; }
+    .tag-present { background: #14532d; color: #86efac; }
+    .tag-missing  { background: #450a0a; color: #fca5a5; }
+
+    .job-card {
+      background: #161827;
+      border: 1px solid #252840;
+      border-radius: 16px;
+      padding: 26px 30px;
+      margin-bottom: 18px;
+      transition: border-color 0.2s;
+    }
+
+    .job-card:hover { border-color: #374070; }
+
+    .job-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 4px; }
+
+    .job-role { font-size: 1.1rem; font-weight: 700; color: #e2e8f0; }
+    .job-id   { font-size: 0.75rem; color: #475569; margin-top: 3px; }
+
+    .score-circle {
+      min-width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .score-high   { background: #14532d; color: #4ade80; }
+    .score-medium { background: #422006; color: #fbbf24; }
+    .score-low    { background: #450a0a; color: #f87171; }
+
+    .job-meta { display: flex; gap: 18px; font-size: 0.82rem; color: #64748b; margin: 10px 0 14px; flex-wrap: wrap; }
+
+    .job-about {
+      font-size: 0.86rem;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      padding-left: 12px;
+      border-left: 3px solid #252840;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid #475569;
+      border-top-color: #a78bfa;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>📄 Resume Matcher</h1>
+    <p>Custom rule-based skill matching developed by Prince Dubey.</p>
+  </div>
+
+  <div class="upload-card">
+    <span class="field-label">Upload Resume (PDF)</span>
+
+    <div class="file-drop" id="fileDrop">
+      <input type="file" id="resumeFile" accept=".pdf" />
+      <div class="file-icon">📎</div>
+      <div class="file-hint">Click to browse or drag & drop a PDF</div>
+      <div class="file-name" id="fileName"></div>
+    </div>
+
+    <button class="btn-match" id="matchBtn" onclick="runMatch()">
+      Match Against All Jobs
+    </button>
+    <div class="status-bar" id="statusBar"></div>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    // Show selected file name
+    document.getElementById("resumeFile").addEventListener("change", function () {
+      const name = this.files[0] ? this.files[0].name : "";
+      document.getElementById("fileName").textContent = name;
+    });
+
+    // Drag & drop styling
+    const drop = document.getElementById("fileDrop");
+    drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("drag-over"); });
+    drop.addEventListener("dragleave", () => drop.classList.remove("drag-over"));
+    drop.addEventListener("drop", e => {
+      e.preventDefault();
+      drop.classList.remove("drag-over");
+      const dt = e.dataTransfer;
+      if (dt.files[0]) {
+        document.getElementById("resumeFile").files = dt.files;
+        document.getElementById("fileName").textContent = dt.files[0].name;
+      }
+    });
+
+    function setStatus(msg, type = "") {
+      const el = document.getElementById("statusBar");
+      el.className = "status-bar " + type;
+      el.innerHTML = msg;
+    }
+
+    function scoreClass(s) {
+      if (s >= 60) return "score-high";
+      if (s >= 35) return "score-medium";
+      return "score-low";
+    }
+
+    async function runMatch() {
+      const fileInput = document.getElementById("resumeFile");
+      const btn = document.getElementById("matchBtn");
+      const resultDiv = document.getElementById("result");
+
+      if (!fileInput.files[0]) {
+        setStatus("⚠️ Please select a PDF file first.", "error");
+        return;
+      }
+
+      btn.disabled = true;
+      setStatus('<span class="spinner"></span>Parsing resume and matching jobs...');
+      resultDiv.innerHTML = "";
+
+      // Load sample JDs from the server
+      let jds;
+      try {
+        const r = await fetch("/data/sampleJDs.json");
+        if (!r.ok) throw new Error("Could not load JDs");
+        jds = await r.json();
+      } catch (e) {
+        setStatus("❌ Could not load job descriptions from server.", "error");
+        btn.disabled = false;
+        return;
+      }
+
+      const form = new FormData();
+      form.append("resume", fileInput.files[0]);
+      form.append("jds", JSON.stringify(jds));
+
+      try {
+        const res = await fetch("/match-resume", { method: "POST", body: form });
+        const data = await res.json();
+
+        if (!res.ok) {
+          setStatus("❌ " + (data.error || "Server error"), "error");
+          btn.disabled = false;
+          return;
+        }
+
+        setStatus(`✅ Done — matched against ${data.matchingJobs.length} jobs`, "success");
+        renderResult(data);
+      } catch (e) {
+        setStatus("❌ Request failed. Make sure the server is running on port 3000.", "error");
+      }
+
+      btn.disabled = false;
+    }
+
+    function renderResult(data) {
+      const div = document.getElementById("result");
+
+      const skillTags = data.resumeSkills
+        .map(s => `<span class="tag tag-skill">${s}</span>`)
+        .join("");
+
+      let html = `
+        <div class="candidate-card">
+          <div class="cname">${data.name || "Unknown"}</div>
+          <div class="cmeta">
+            ${data.yearOfExperience != null ? data.yearOfExperience + " years of experience" : "Experience not detected in resume"}
+          </div>
+          <div class="sec-label">Skills detected from resume (${data.resumeSkills.length})</div>
+          <div class="tags">${skillTags || "<span style='color:#475569'>No skills detected</span>"}</div>
+        </div>
+      `;
+
+      for (const job of data.matchingJobs) {
+        const sc = scoreClass(job.matchingScore);
+
+        const skillTags = job.skillsAnalysis
+          .map(s => `<span class="tag ${s.presentInResume ? "tag-present" : "tag-missing"}">${s.skill}</span>`)
+          .join("");
+
+        html += `
+          <div class="job-card">
+            <div class="job-top">
+              <div>
+                <div class="job-role">${job.role}</div>
+                <div class="job-id">${job.jobId}</div>
+              </div>
+              <div class="score-circle ${sc}">${job.matchingScore}%</div>
+            </div>
+            <div class="job-meta">
+              ${job.salary ? `<span>💰 ${job.salary}</span>` : ""}
+              ${job.requiredExperience != null ? `<span>🕐 ${job.requiredExperience}+ yrs required</span>` : ""}
+            </div>
+            <div class="job-about">${job.aboutRole}</div>
+            <div class="sec-label">Skill Analysis</div>
+            <div class="tags">${skillTags}</div>
+          </div>
+        `;
+      }
+
+      div.innerHTML = html;
+    }
+  </script>
+
+</body>
+</html>
