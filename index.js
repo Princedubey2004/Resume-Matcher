@@ -14,7 +14,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/data", express.static(path.join(__dirname, "data")));
 
-const upload = multer({ dest: path.join(__dirname, "uploads") });
+// Vercel serverless functions only have write access to /tmp
+const upload = multer({ dest: '/tmp/uploads' });
 
 app.post("/match-resume", upload.single("resume"), async (req, res) => {
   try {
@@ -32,9 +33,11 @@ app.post("/match-resume", upload.single("resume"), async (req, res) => {
     const parsedJDs = parseJDs(jdList);
     const result = matchResumeWithJDs(resume, parsedJDs);
 
-    const outputPath = path.join(__dirname, "output", "result.json");
-    fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
-    fs.unlinkSync(req.file.path);
+    // On Vercel, we can't reliably write to the filesystem outside of /tmp.
+    // We already send the result back in the response, so writing to output/result.json is unnecessary.
+    if (fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
 
     return res.json(result);
   } catch (err) {
